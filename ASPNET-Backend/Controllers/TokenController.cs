@@ -1,4 +1,5 @@
 ﻿using ASPNET_Backend.Models;
+using ASPNET_Backend.Scripts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +28,7 @@ namespace ASPNET_Backend.Controllers
         {
             if (_userData != null && _userData.Email != null && _userData.Password != null)
             {
+                _userData.Password = Hash.sha256_hash(_userData.Password + _configuration["Hashing:Salt"]);
                 var user = await GetUser(_userData.Email, _userData.Password);
 
                 if (user != null)

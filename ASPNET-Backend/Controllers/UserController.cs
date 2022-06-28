@@ -1,5 +1,6 @@
 ﻿using ASPNET_Backend.Interfaces;
 using ASPNET_Backend.Models;
+using ASPNET_Backend.Scripts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,13 @@ namespace ASPNET_Backend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        public IConfiguration _configuration;
+
         private readonly IUser _IUser;
 
-        public UserController(IUser IUser)
+        public UserController(IConfiguration configuration, IUser IUser)
         {
+            _configuration = configuration;
             _IUser = IUser;
         }
 
@@ -25,6 +29,8 @@ namespace ASPNET_Backend.Controllers
             
             try
             {
+                user.Password = Hash.sha256_hash(user.Password + _configuration["Hashing:Salt"]);
+
                 _IUser.AddUser(user);
             }
             catch (Exception)
@@ -82,6 +88,11 @@ namespace ASPNET_Backend.Controllers
                     {
                         return Forbid();
                     }
+                }
+
+                if (user.Password != null)
+                {
+                    user.Password = Hash.sha256_hash(user.Password + _configuration["Hashing:Salt"]);
                 }
 
                 _IUser.UpdateUser(user);
