@@ -1,4 +1,4 @@
-async function WebAPIFire(url = '', method = 'GET', data = {}) {
+/*async function WebAPIFire(url = '', method = 'GET', data = {}, headers) {
     
     let response = await fetch(url, {
         method: method, // *GET, POST, PUT, DELETE, etc.
@@ -11,4 +11,4 @@ async function WebAPIFire(url = '', method = 'GET', data = {}) {
     return json; // parses JSON response into native JavaScript objects
 }
 
-export default WebAPIFire
+export default WebAPIFire*/
