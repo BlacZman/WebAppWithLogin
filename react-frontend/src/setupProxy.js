@@ -2,13 +2,15 @@
 
 const context = [
     "/weatherforecast",
+    "/api/user",
+    "/api/token"
 ];
 
 module.exports = function (app) {
-    const appProxy = createProxyMiddleware(context, {
+    const templateProxy = createProxyMiddleware(context, {
         target: 'https://localhost:44360',
         secure: false
     });
 
-    app.use(appProxy);
+    app.use(templateProxy);
 };
